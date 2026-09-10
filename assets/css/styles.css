@@ -61,12 +61,18 @@ body {
    APLICACIÓN
 ================================================== */
 
+/* ==================================================
+   APLICACIÓN
+================================================== */
+
 .app {
-    width: min(1100px, 100%);
 
-    height: calc(100vh - 40px);
+    width: min(1100px, calc(100% - 32px));
 
-    margin: 20px auto;
+    min-height: calc(100dvh - 32px);
+    height: calc(100dvh - 32px);
+
+    margin: 16px auto;
 
     display: flex;
     flex-direction: column;
@@ -76,6 +82,7 @@ body {
     backdrop-filter: blur(20px);
 
     border: 1px solid rgba(255, 255, 255, 0.8);
+
     border-radius: 26px;
 
     overflow: hidden;
@@ -728,4 +735,44 @@ body {
 
     }
 
+}
+
+/* ==================================================
+   PIE DE PÁGINA
+================================================== */
+
+.footer {
+
+    flex-shrink: 0;
+
+    min-height: 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px 24px;
+
+    border-top: 1px solid var(--border);
+
+    background:
+        rgba(248, 250, 252, 0.75);
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+
+    text-align: center;
+}
+
+
+.footer-info {
+
+    width: 100%;
+
+    max-width: 780px;
+
+    margin: auto;
+
+    line-height: 1.5;
 }
