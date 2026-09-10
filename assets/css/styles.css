@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
 :root {
     --bg: #f8fafc;
     --panel: #ffffff;
@@ -61,12 +66,7 @@ body {
    APLICACIÓN
 ================================================== */
 
-/* ==================================================
-   APLICACIÓN
-================================================== */
-
 .app {
-
     width: min(1100px, calc(100% - 32px));
 
     min-height: calc(100dvh - 32px);
@@ -82,7 +82,6 @@ body {
     backdrop-filter: blur(20px);
 
     border: 1px solid rgba(255, 255, 255, 0.8);
-
     border-radius: 26px;
 
     overflow: hidden;
@@ -99,6 +98,8 @@ body {
 .header {
     min-height: 84px;
 
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -113,7 +114,9 @@ body {
 }
 
 
-/* título */
+/* ==================================================
+   TÍTULO
+================================================== */
 
 .header h1 {
     position: relative;
@@ -129,7 +132,7 @@ body {
 }
 
 
-/* icono morado generado únicamente con CSS */
+/* Icono generado con CSS */
 
 .header h1::before {
     content: "✦";
@@ -222,11 +225,13 @@ body {
     flex: 1;
 
     min-height: 0;
-    max-height: none;
 
     overflow-y: auto;
+    overflow-x: hidden;
 
-    padding: 45px max(30px, calc((100% - 760px) / 2));
+    padding:
+        35px
+        max(30px, calc((100% - 760px) / 2));
 
     scroll-behavior: smooth;
 
@@ -236,6 +241,9 @@ body {
             rgba(248, 250, 252, 0.4),
             rgba(255, 255, 255, 0)
         );
+
+    scrollbar-width: thin;
+    scrollbar-color: #d4d7dd transparent;
 }
 
 
@@ -246,7 +254,7 @@ body {
 .message {
     width: 100%;
 
-    margin-bottom: 32px;
+    margin-bottom: 26px;
 
     animation: mensajeEntrada 0.3s ease;
 }
@@ -272,12 +280,11 @@ body {
 ================================================== */
 
 .message-label {
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 
     color: #9096a2;
 
     font-size: 11px;
-
     font-weight: 700;
 
     text-transform: uppercase;
@@ -306,7 +313,6 @@ body {
 
 
 .message.user .message-content {
-
     max-width: 72%;
 
     padding: 13px 17px;
@@ -326,6 +332,8 @@ body {
 
     color: white;
 
+    line-height: 1.5;
+
     box-shadow:
         0 6px 18px rgba(91, 91, 214, 0.18);
 }
@@ -342,10 +350,9 @@ body {
 }
 
 
-/* avatar */
+/* Avatar */
 
 .message.assistant::before {
-
     content: "✦";
 
     position: absolute;
@@ -374,10 +381,11 @@ body {
 }
 
 
-/* quitamos la burbuja gris grande */
+/* ==================================================
+   CONTENIDO DEL ASISTENTE
+================================================== */
 
 .message.assistant .message-content {
-
     display: block;
 
     max-width: 100%;
@@ -387,7 +395,6 @@ body {
     background: transparent;
 
     border: none;
-
     border-radius: 0;
 
     box-shadow: none;
@@ -396,25 +403,280 @@ body {
 
     font-size: 15px;
 
-    line-height: 1.75;
+    line-height: 1.55;
 }
 
 
 /* ==================================================
-   CONTENIDO GENERAL DEL MENSAJE
+   CONTENIDO GENERAL
 ================================================== */
 
 .message-content {
-
     display: inline-block;
 
-    white-space: pre-wrap;
+    white-space: normal;
 
     word-break: break-word;
 
     font-size: 15px;
 
-    line-height: 1.6;
+    line-height: 1.55;
+}
+
+
+/* ==================================================
+   MARKDOWN - PÁRRAFOS
+================================================== */
+
+.message.assistant .message-content p {
+    margin: 0 0 8px;
+
+    line-height: 1.55;
+}
+
+
+.message.assistant .message-content p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ==================================================
+   MARKDOWN - TÍTULOS
+================================================== */
+
+.message.assistant .message-content h1,
+.message.assistant .message-content h2,
+.message.assistant .message-content h3,
+.message.assistant .message-content h4 {
+    margin:
+        16px
+        0
+        7px;
+
+    color: #20232a;
+
+    line-height: 1.3;
+}
+
+
+.message.assistant .message-content h1 {
+    font-size: 22px;
+}
+
+
+.message.assistant .message-content h2 {
+    font-size: 19px;
+}
+
+
+.message.assistant .message-content h3 {
+    font-size: 17px;
+}
+
+
+.message.assistant .message-content h4 {
+    font-size: 15px;
+}
+
+
+/* Si el título es el primer elemento */
+
+.message.assistant .message-content > h1:first-child,
+.message.assistant .message-content > h2:first-child,
+.message.assistant .message-content > h3:first-child,
+.message.assistant .message-content > h4:first-child {
+    margin-top: 0;
+}
+
+
+/* ==================================================
+   MARKDOWN - NEGRITAS Y CURSIVAS
+================================================== */
+
+.message.assistant .message-content strong {
+    color: #292d35;
+
+    font-weight: 700;
+}
+
+
+.message.assistant .message-content em {
+    color: #525866;
+}
+
+
+/* ==================================================
+   MARKDOWN - LISTAS
+================================================== */
+
+.message.assistant .message-content ul,
+.message.assistant .message-content ol {
+    margin:
+        7px
+        0
+        10px;
+
+    padding-left: 26px;
+}
+
+
+/* Elementos individuales */
+
+.message.assistant .message-content li {
+    margin:
+        2px
+        0;
+
+    padding-left: 2px;
+
+    line-height: 1.5;
+}
+
+
+/*
+   IMPORTANTE:
+   Marked puede generar <p> dentro de un <li>.
+   Quitamos esos márgenes para evitar espacios enormes.
+*/
+
+.message.assistant .message-content li p {
+    margin: 0;
+
+    padding: 0;
+
+    line-height: 1.5;
+}
+
+
+/* Listas dentro de otras listas */
+
+.message.assistant .message-content li ul,
+.message.assistant .message-content li ol {
+    margin:
+        4px
+        0
+        4px;
+
+    padding-left: 22px;
+}
+
+
+/* ==================================================
+   MARKDOWN - CÓDIGO EN LÍNEA
+================================================== */
+
+.message.assistant .message-content code {
+    padding:
+        2px
+        6px;
+
+    border-radius: 5px;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-family:
+        Consolas,
+        Monaco,
+        "Courier New",
+        monospace;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   MARKDOWN - BLOQUES DE CÓDIGO
+================================================== */
+
+.message.assistant .message-content pre {
+    margin:
+        10px
+        0
+        12px;
+
+    padding: 14px;
+
+    overflow-x: auto;
+
+    border-radius: 12px;
+
+    background: #1e1e2e;
+
+    color: #f8fafc;
+
+    line-height: 1.5;
+}
+
+
+.message.assistant .message-content pre code {
+    padding: 0;
+
+    background: transparent;
+
+    color: inherit;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   MARKDOWN - CITAS
+================================================== */
+
+.message.assistant .message-content blockquote {
+    margin:
+        10px
+        0;
+
+    padding:
+        8px
+        14px;
+
+    border-left: 4px solid var(--primary);
+
+    background: #f8f9ff;
+
+    color: #5f6470;
+}
+
+
+.message.assistant .message-content blockquote p {
+    margin: 0;
+}
+
+
+/* ==================================================
+   MARKDOWN - LÍNEAS
+================================================== */
+
+.message.assistant .message-content hr {
+    margin:
+        15px
+        0;
+
+    border: none;
+
+    border-top: 1px solid var(--border);
+}
+
+
+/* ==================================================
+   MARKDOWN - ENLACES
+================================================== */
+
+.message.assistant .message-content a {
+    color: var(--primary);
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.message.assistant .message-content a:hover {
+    text-decoration: underline;
 }
 
 
@@ -423,14 +685,14 @@ body {
 ================================================== */
 
 .message.loading {
-
     padding-left: 48px;
 }
 
 
 .message.loading .message-content {
-
-    padding: 10px 15px;
+    padding:
+        10px
+        15px;
 
     border-radius: 15px;
 
@@ -449,15 +711,15 @@ body {
 ================================================== */
 
 .chat-form {
-
     position: relative;
+
+    flex-shrink: 0;
 
     width: min(780px, calc(100% - 40px));
 
     margin:
-        0
-        auto
-        20px;
+        12px
+        auto;
 
     display: flex;
     align-items: center;
@@ -482,14 +744,15 @@ body {
 ================================================== */
 
 .chat-form input {
-
     flex: 1;
 
     min-width: 0;
 
     height: 50px;
 
-    padding: 0 15px;
+    padding:
+        0
+        15px;
 
     border: none;
 
@@ -506,16 +769,13 @@ body {
 
 
 .chat-form input::placeholder {
-
     color: #9ba1ac;
-
 }
 
 
-/* el borde entero se ilumina */
+/* Borde al seleccionar */
 
 .chat-form:focus-within {
-
     border-color: #a5b4fc;
 
     box-shadow:
@@ -529,13 +789,15 @@ body {
 ================================================== */
 
 .chat-form button {
-
     width: auto;
+
     min-width: 85px;
 
     height: 44px;
 
-    padding: 0 18px;
+    padding:
+        0
+        18px;
 
     border: none;
 
@@ -564,7 +826,6 @@ body {
 
 
 .chat-form button:hover:not(:disabled) {
-
     transform: translateY(-1px);
 
     box-shadow:
@@ -573,18 +834,14 @@ body {
 
 
 .chat-form button:active:not(:disabled) {
-
     transform: scale(0.97);
-
 }
 
 
 .chat-form button:disabled {
-
     opacity: 0.45;
 
     cursor: default;
-
 }
 
 
@@ -592,157 +849,33 @@ body {
    SCROLLBAR
 ================================================== */
 
-.messages {
-
-    scrollbar-width: thin;
-
-    scrollbar-color:
-        #d4d7dd
-        transparent;
-
-}
-
-
 .messages::-webkit-scrollbar {
-
     width: 6px;
-
 }
 
 
 .messages::-webkit-scrollbar-track {
-
     background: transparent;
-
 }
 
 
 .messages::-webkit-scrollbar-thumb {
-
     background: #d4d7dd;
 
     border-radius: 20px;
-
 }
 
 
-/* ==================================================
-   RESPONSIVE
-================================================== */
-
-@media (max-width: 700px) {
-
-    body {
-        background: white;
-    }
-
-
-    .app {
-
-        width: 100%;
-
-        height: 100vh;
-
-        margin: 0;
-
-        border: none;
-
-        border-radius: 0;
-
-        box-shadow: none;
-
-    }
-
-
-    .header {
-
-        min-height: 75px;
-
-        padding: 15px 18px;
-
-    }
-
-
-    .header h1 {
-
-        font-size: 18px;
-
-    }
-
-
-    .header p {
-
-        font-size: 12px;
-
-    }
-
-
-    .status {
-
-        display: none;
-
-    }
-
-
-    .messages {
-
-        padding:
-            30px
-            18px
-            20px;
-
-    }
-
-
-    .message.user .message-content {
-
-        max-width: 88%;
-
-    }
-
-
-    .message.assistant {
-
-        padding-left: 42px;
-
-    }
-
-
-    .message.assistant::before {
-
-        width: 30px;
-        height: 30px;
-
-        font-size: 14px;
-
-    }
-
-
-    .chat-form {
-
-        width: calc(100% - 24px);
-
-        margin-bottom: 12px;
-
-    }
-
-
-    .chat-form button {
-
-        min-width: 72px;
-
-        padding: 0 14px;
-
-    }
-
+.messages::-webkit-scrollbar-thumb:hover {
+    background: #b9bec7;
 }
+
 
 /* ==================================================
    PIE DE PÁGINA
 ================================================== */
 
 .footer {
-
     flex-shrink: 0;
 
     min-height: 42px;
@@ -751,7 +884,9 @@ body {
     justify-content: center;
     align-items: center;
 
-    padding: 10px 24px;
+    padding:
+        10px
+        24px;
 
     border-top: 1px solid var(--border);
 
@@ -767,7 +902,6 @@ body {
 
 
 .footer-info {
-
     width: 100%;
 
     max-width: 780px;
@@ -775,4 +909,231 @@ body {
     margin: auto;
 
     line-height: 1.5;
+}
+
+
+/* ==================================================
+   RESPONSIVE - TABLET Y CELULAR
+================================================== */
+
+@media (max-width: 700px) {
+
+    body {
+        background: white;
+    }
+
+
+    .app {
+        width: 100%;
+
+        min-height: 100dvh;
+        height: 100dvh;
+
+        margin: 0;
+
+        border: none;
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+
+    .header {
+        min-height: 72px;
+
+        padding:
+            14px
+            18px;
+    }
+
+
+    .header h1 {
+        padding-left: 42px;
+
+        font-size: 18px;
+    }
+
+
+    .header h1::before {
+        width: 32px;
+        height: 32px;
+
+        font-size: 16px;
+    }
+
+
+    .header p {
+        margin-left: 42px;
+
+        font-size: 11px;
+    }
+
+
+    .status {
+        display: none;
+    }
+
+
+    .messages {
+        padding:
+            24px
+            16px
+            18px;
+    }
+
+
+    .message {
+        margin-bottom: 22px;
+    }
+
+
+    .message.user .message-content {
+        max-width: 90%;
+
+        font-size: 14px;
+    }
+
+
+    .message.assistant {
+        padding-left: 42px;
+    }
+
+
+    .message.assistant::before {
+        width: 30px;
+        height: 30px;
+
+        font-size: 14px;
+    }
+
+
+    .message.assistant .message-content {
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    .message.assistant .message-content p {
+        line-height: 1.5;
+    }
+
+
+    .message.assistant .message-content li {
+        line-height: 1.45;
+    }
+
+
+    .chat-form {
+        width: calc(100% - 24px);
+
+        margin:
+            10px
+            auto;
+
+        padding: 6px;
+    }
+
+
+    .chat-form input {
+        height: 46px;
+
+        font-size: 14px;
+    }
+
+
+    .chat-form button {
+        min-width: 70px;
+
+        height: 42px;
+
+        padding:
+            0
+            13px;
+
+        font-size: 12px;
+    }
+
+
+    .footer {
+        min-height: 38px;
+
+        padding:
+            8px
+            16px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* ==================================================
+   RESPONSIVE - CELULARES PEQUEÑOS
+================================================== */
+
+@media (max-width: 420px) {
+
+    .header p {
+        max-width: 220px;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+
+    .messages {
+        padding:
+            20px
+            13px
+            16px;
+    }
+
+
+    .message.user .message-content {
+        max-width: 94%;
+    }
+
+
+    .message.assistant {
+        padding-left: 38px;
+    }
+
+
+    .message.assistant::before {
+        width: 28px;
+        height: 28px;
+    }
+
+
+    .chat-form {
+        width: calc(100% - 16px);
+    }
+
+
+    .chat-form input {
+        padding:
+            0
+            10px;
+    }
+
+
+    .chat-form button {
+        min-width: 62px;
+
+        padding:
+            0
+            10px;
+    }
+
+
+    .footer {
+        padding:
+            7px
+            10px;
+    }
+
 }
