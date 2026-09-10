@@ -1137,3 +1137,129 @@ body {
     }
 
 }
+/* ==================================================
+   CORRECCIÓN DEFINITIVA DE ESPACIADO MARKDOWN
+================================================== */
+
+.message.assistant .message-content {
+    white-space: normal !important;
+    line-height: 1.5 !important;
+}
+
+
+/* Reiniciar márgenes de elementos Markdown */
+
+.message.assistant .message-content p,
+.message.assistant .message-content h1,
+.message.assistant .message-content h2,
+.message.assistant .message-content h3,
+.message.assistant .message-content h4,
+.message.assistant .message-content h5,
+.message.assistant .message-content h6,
+.message.assistant .message-content ul,
+.message.assistant .message-content ol,
+.message.assistant .message-content blockquote,
+.message.assistant .message-content pre {
+    margin-top: 0 !important;
+}
+
+
+/* Párrafos */
+
+.message.assistant .message-content p {
+    margin-bottom: 8px !important;
+    padding: 0 !important;
+}
+
+
+/* Títulos */
+
+.message.assistant .message-content h1,
+.message.assistant .message-content h2,
+.message.assistant .message-content h3,
+.message.assistant .message-content h4 {
+    margin-top: 14px !important;
+    margin-bottom: 7px !important;
+    padding: 0 !important;
+}
+
+
+/* Primer elemento */
+
+.message.assistant .message-content > :first-child {
+    margin-top: 0 !important;
+}
+
+
+/* Último elemento */
+
+.message.assistant .message-content > :last-child {
+    margin-bottom: 0 !important;
+}
+
+
+/* Listas */
+
+.message.assistant .message-content ul,
+.message.assistant .message-content ol {
+    margin-top: 6px !important;
+    margin-bottom: 9px !important;
+
+    padding-left: 25px !important;
+}
+
+
+/* Elementos de lista */
+
+.message.assistant .message-content li {
+    margin: 0 0 4px 0 !important;
+    padding: 0 !important;
+
+    line-height: 1.5 !important;
+}
+
+
+/* Párrafos dentro de listas */
+
+.message.assistant .message-content li p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* Evita espacios extra entre elementos consecutivos */
+
+.message.assistant .message-content p + p {
+    margin-top: 0 !important;
+}
+
+.message.assistant .message-content p + ul,
+.message.assistant .message-content p + ol {
+    margin-top: 4px !important;
+}
+
+.message.assistant .message-content h1 + p,
+.message.assistant .message-content h2 + p,
+.message.assistant .message-content h3 + p,
+.message.assistant .message-content h4 + p {
+    margin-top: 0 !important;
+}
+
+
+/* Código */
+
+.message.assistant .message-content pre {
+    margin:
+        8px
+        0
+        10px !important;
+}
+
+
+/* Citas */
+
+.message.assistant .message-content blockquote {
+    margin:
+        8px
+        0 !important;
+}

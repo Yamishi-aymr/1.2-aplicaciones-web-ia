@@ -36,15 +36,26 @@ function addMessage(text, type) {
     content.classList.add("message-content");
 
 
-    /*
-        Las respuestas del asistente pueden
-        contener Markdown.
-    */
-
     if (type === "assistant") {
 
-        content.innerHTML =
-            marked.parse(text);
+        content.innerHTML = marked.parse(text.trim());
+
+        /*
+            Elimina nodos de texto que solamente
+            contienen espacios o saltos de línea
+            entre elementos HTML.
+        */
+
+        Array.from(content.childNodes).forEach(node => {
+
+            if (
+                node.nodeType === Node.TEXT_NODE &&
+                node.textContent.trim() === ""
+            ) {
+                node.remove();
+            }
+
+        });
 
     } else {
 
