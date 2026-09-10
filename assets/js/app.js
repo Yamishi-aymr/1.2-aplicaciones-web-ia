@@ -1,9 +1,18 @@
-const API_URL = "https://1-2-aplicaciones-web-ia-git-main-alice-70fd.vercel.app/api/chat";
+const API_URL =
+    "https://1-2-aplicaciones-web-ia-git-main-alice-70fd.vercel.app/api/chat";
+
 
 const form = document.getElementById("chatForm");
 const input = document.getElementById("messageInput");
 const messages = document.getElementById("messages");
 const sendButton = document.getElementById("sendButton");
+
+
+/* ==================================================
+   HISTORIAL DE CONVERSACIÓN
+================================================== */
+
+const conversationHistory = [];
 
 function addMessage(text, type) {
 
@@ -11,19 +20,31 @@ function addMessage(text, type) {
 
     container.classList.add("message", type);
 
+
     const label = document.createElement("div");
 
     label.classList.add("message-label");
 
-    label.textContent = type === "user" ? "Tú" : "IA";
+    label.textContent =
+        type === "user"
+            ? "Tú"
+            : "IA";
+
 
     const content = document.createElement("div");
 
     content.classList.add("message-content");
 
+
+    /*
+        Las respuestas del asistente pueden
+        contener Markdown.
+    */
+
     if (type === "assistant") {
 
-        content.innerHTML = marked.parse(text);
+        content.innerHTML =
+            marked.parse(text);
 
     } else {
 
@@ -31,87 +52,220 @@ function addMessage(text, type) {
 
     }
 
+
     container.appendChild(label);
 
     container.appendChild(content);
 
     messages.appendChild(container);
 
-    messages.scrollTop = messages.scrollHeight;
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
 
     return container;
 }
 
 
-form.addEventListener("submit", async (event) => {
+/* ==================================================
+   GUARDAR MENSAJE EN EL HISTORIAL
+================================================== */
 
-    event.preventDefault();
+function saveToHistory(role, content) {
 
-    const message = input.value.trim();
+    conversationHistory.push({
+        role: role,
+        content: content
+    });
 
-    if (!message) {
-        return;
-    }
 
-    addMessage(message, "user");
+    /*
+        Esto es opcional.
+        Sirve para revisar el historial
+        desde la consola del navegador.
+    */
 
-    input.value = "";
+    console.log(
+        "Historial:",
+        conversationHistory
+    );
+}
 
-    input.disabled = true;
-    sendButton.disabled = true;
 
-    const loading = addMessage("Pensando...", "loading");
+/* ==================================================
+   ENVIAR MENSAJE
+================================================== */
 
-    try {
+form.addEventListener(
+    "submit",
 
-        const response = await fetch(API_URL, {
+    async (event) => {
 
-            method: "POST",
+        event.preventDefault();
 
-            headers: {
-                "Content-Type": "application/json"
-            },
 
-            body: JSON.stringify({
-                message: message
-            })
+        const message =
+            input.value.trim();
 
-        });
 
-        const data = await response.json();
+        if (!message) {
+            return;
+        }
 
-        loading.remove();
 
-        if (!response.ok) {
+        /* ==========================================
+           MOSTRAR MENSAJE DEL USUARIO
+        ========================================== */
 
-            throw new Error(
-                data.error || "Error del servidor"
+        addMessage(
+            message,
+            "user"
+        );
+
+
+        /* ==========================================
+           GUARDAR MENSAJE DEL USUARIO
+        ========================================== */
+
+        saveToHistory(
+            "user",
+            message
+        );
+
+
+        input.value = "";
+
+        input.disabled = true;
+
+        sendButton.disabled = true;
+
+
+        /* ==========================================
+           MENSAJE DE CARGA
+        ========================================== */
+
+        const loading =
+            addMessage(
+                "Pensando...",
+                "loading"
+            );
+
+
+        try {
+
+            /* ======================================
+               PETICIÓN AL BACKEND
+            ====================================== */
+
+            const response =
+                await fetch(
+                    API_URL,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+
+                        body: JSON.stringify({
+
+                            /*
+                                Mensaje actual
+                            */
+
+                            message: message,
+
+
+                            /*
+                                Conversación completa
+                            */
+
+                            history:
+                                conversationHistory
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            loading.remove();
+
+
+            /* ======================================
+               VALIDAR RESPUESTA
+            ====================================== */
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    data.error ||
+                    "Error del servidor"
+
+                );
+
+            }
+
+
+            /* ======================================
+               MOSTRAR RESPUESTA
+            ====================================== */
+
+            addMessage(
+                data.reply,
+                "assistant"
+            );
+
+
+            /* ======================================
+               GUARDAR RESPUESTA DE LA IA
+            ====================================== */
+
+            saveToHistory(
+                "assistant",
+                data.reply
             );
 
         }
 
-        addMessage(data.reply, "assistant");
+
+        catch (error) {
+
+            loading.remove();
+
+
+            addMessage(
+
+                "Error: " +
+                error.message,
+
+                "assistant"
+
+            );
+
+        }
+
+
+        finally {
+
+            input.disabled = false;
+
+            sendButton.disabled = false;
+
+            input.focus();
+
+        }
 
     }
-
-    catch (error) {
-
-        loading.remove();
-
-        addMessage(
-            "Error: " + error.message,
-            "assistant"
-        );
-
-    }
-
-    finally {
-
-        input.disabled = false;
-        sendButton.disabled = false;
-
-        input.focus();
-
-    }
-
-});
+);
