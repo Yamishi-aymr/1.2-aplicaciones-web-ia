@@ -68,9 +68,6 @@ function addMessage(text, type) {
 }
 
 
-/* ==================================================
-   GUARDAR MENSAJE EN EL HISTORIAL
-================================================== */
 
 function saveToHistory(role, content) {
 
@@ -175,19 +172,7 @@ form.addEventListener(
 
                         body: JSON.stringify({
 
-                            /*
-                                Mensaje actual
-                            */
-
-                            message: message,
-
-
-                            /*
-                                Conversación completa
-                            */
-
-                            history:
-                                conversationHistory
+                            messages: conversationHistory
 
                         })
 
